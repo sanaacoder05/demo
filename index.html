@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Life Simulator</title>
+    <style>
+        .data {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px 0;
+        }
+        .data th, .data td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .data th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        async function submitChoice(choice) {
+            const response = await fetch('/choice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ choice })
+            });
+            const result = await response.json();
+            document.getElementById('stats').innerHTML = result.stats;
+        }
+    </script>
+</head>
+<body>
+    <h1>College Life Simulator</h1>
+    <p>Make choices to see how they affect your GPA, Energy, and Social Life.</p>
+    <div id="stats">{{ stats | safe }}</div>
+    <div>
+        <label>It's Monday morning. Do you:</label><br>
+        <button onclick="submitChoice('1')">Go to your 8 AM class</button><br>
+        <button onclick="submitChoice('2')">Sleep in and skip the class</button><br>
+    </div>
+</body>
+</html>
